@@ -1,5 +1,8 @@
 package cz.acamar.tasks;
 
+import java.util.Optional;
+import java.util.stream.Stream;
+
 public class Task1 {
 
     /**
@@ -16,7 +19,14 @@ public class Task1 {
      * @param str - a string s consisting of some words separated by some number of spaces.
      * @return - the length of the last word in the string.
      */
+
+    private final String regexForPunctuationMarks = "\\p{P}";
+
     public int lengthOfLastWord(String str) {
-        return 0;
+        return Optional.ofNullable(str).map(s -> str.replaceAll(regexForPunctuationMarks, ""))
+            .map(s -> s.split(" "))
+            .map(array -> array[array.length-1])
+            .map(String::length)
+            .orElseThrow(IllegalArgumentException::new);
     }
 }
